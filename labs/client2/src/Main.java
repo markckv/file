@@ -5,8 +5,9 @@ import java.util.Scanner;
 /**
  * Created by mark on 10.07.17.
  */
-public class Main { public static void main(String[] args) throws IOException {
+public class Main { public static void main(String[] args) throws IOException, InterruptedException {
     Socket socket = new Socket("127.0.0.1", 9999);
+    Dersiter dersiter = new Dersiter();
     OutputStream os = socket.getOutputStream();
     DataOutputStream dos = new DataOutputStream(os);
     InputStream is = socket.getInputStream();
@@ -17,10 +18,25 @@ public class Main { public static void main(String[] args) throws IOException {
         ProtocolFileRes PFR = new ProtocolFileRes();
         PFR.PFR(is,os);
     }
+    File file;
+    long DM;
     if(what ==2){
         ProtocolFileSendler PFS = new ProtocolFileSendler();
-        File file = new File(SC.nextLine());
-        PFS.PFSD(file,is,os);
+         file = new File(SC.nextLine());
+         DM = file.lastModified();
+        PFS.PFSD2(file,is,os);
+        dos.writeUTF("stop");
+        while (true){
+            Thread.sleep(5000);
+            if(!dersiter.PFSD(file)){
+                PFS.PFSD2(file,is,os);
+                dos.writeUTF("stop");
+
+            }
+        }
     }
+
+
     socket.close();
+
 }}
