@@ -14,12 +14,14 @@ import java.util.Set;
  */
 public class Main {
     public static void main(String[] args) throws IOException {
+        Dersiter dersiter = new Dersiter();
         ServerSocketChannel ss = ServerSocketChannel.open();
         ss.socket().bind(new InetSocketAddress(9999));
         Selector selector = Selector.open();
         SocketChannel socket = ss.accept();
         InputStream is = socket.socket().getInputStream();
         OutputStream os = socket.socket().getOutputStream();
+        DataOutputStream dos = new DataOutputStream(os);
         ProtocolFileRes PFR = new ProtocolFileRes();
         socket.configureBlocking(true);
         while (true){
@@ -44,6 +46,13 @@ public class Main {
                 catch (Exception r){
                     break;
                 }
+            }
+            ProtocolFileSendler PFS = new ProtocolFileSendler();
+            File file = new File(System.getProperty("user.dir")+"/file");
+            if(!dersiter.modificationDate(file)){
+                PFS.PFSD2(file,is,os);
+                dos.writeUTF("stop");
+
             }
             socket.configureBlocking(false);
             SK = socket.register(selector, SelectionKey.OP_READ);

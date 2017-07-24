@@ -4,20 +4,21 @@ import java.io.*;
  * Created by mark on 10.07.17.
  */
 public class ProtocolFileSendler {
+    long size;
     public void PFS(File file, OutputStream OS, InputStream IS) throws IOException {
         DataOutputStream DOS = new DataOutputStream(OS);
-       if( file.isDirectory()){
-           DOS.writeUTF("directory");
-           DOS.writeUTF(file.getName());
-       }else{
-           DOS.writeUTF("file");
-           DOS.writeLong(file.lastModified());
-           DOS.writeLong(file.length());//!!!!!!!!!!!!!
-           DOS.writeUTF(file.getName());
-           FileSender FS = new FileSender();
-           FS.fileSend(file, OS);
+        if( file.isDirectory()){
+            DOS.writeUTF("directory");
+            DOS.writeUTF(file.getAbsolutePath().substring((int) size));
+        }else{
+            DOS.writeUTF("file");
+            DOS.writeLong(file.lastModified());
+            DOS.writeLong(file.length());//!!!!!!!!!!!!!
+            DOS.writeUTF(file.getAbsolutePath().substring((int) size));
+            FileSender FS = new FileSender();
+            FS.fileSend(file, OS);
 
-       }
+        }
 
     }
     public void PFSD(File file, InputStream is , OutputStream os) throws IOException {
@@ -29,5 +30,9 @@ public class ProtocolFileSendler {
 
             }
         }
+    }
+    public void PFSD2(File file, InputStream is , OutputStream os) throws IOException {
+        size = file.getAbsolutePath().length();
+        PFSD(file,is,os);
     }
 }
