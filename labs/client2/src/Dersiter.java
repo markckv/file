@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class Dersiter {
     Map<String, Long> der = new HashMap<>();
-    public boolean PFSD(File file) throws IOException {
+    public boolean modificationDate(File file) throws IOException {
         Map<String, Long> der1 = new HashMap<>();
 
         File[] files= file.listFiles();
@@ -18,7 +18,7 @@ public class Dersiter {
             if (files[i].isDirectory()){
 
                 der1.put(files[i].getAbsolutePath(), files[i].lastModified() );
-                PFSD(files[i]);
+                modificationDate(files[i]);
 
             }
         }
