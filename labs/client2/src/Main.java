@@ -13,34 +13,36 @@ public class Main { public static void main(String[] args) throws IOException, I
     ProtocolFileRes PFR = new ProtocolFileRes();
     DataOutputStream dos = new DataOutputStream(os);
     InputStream is = socket.getInputStream();
+    DataInputStream DIS = new DataInputStream(is);
     Scanner SC = new Scanner(System.in);
-    int what = SC.nextInt();
-    SC.nextLine();
-    if(what ==1){
-        ProtocolFileRes PFR = new ProtocolFileRes();
-        PFR.PFR(is,os);
-    }
     File file;
     long DM;
-    if(what ==2){
+    if(true){
         ProtocolFileSendler PFS = new ProtocolFileSendler();
-         file = new File(SC.nextLine());
-         DM = file.lastModified();
-        PFS.PFSD2(file,is,os);
-        dos.writeUTF("stop");
+       //  file = new File(SC.nextLine());
+        file = new File("/home/mark/IdeaProjects/sss/");
         while (true){
-            //Thread.sleep(5000);
             if(!dersiter.modificationDate(file)){
+                dos.writeBoolean(true);
                 PFS.PFSD2(file,is,os);
                 dos.writeUTF("stop");
+continue;
+            }else {
+                dos.writeBoolean(false);
+            }
+            if(DIS.readBoolean()){
+                while (true){
+                    try{
+                        PFR.PFR(is,os,file);
+                    }
+                    catch (Exception r){
+                        break;
+                    }
 
+                }
+                continue;
             }
-            try{
-                PFR.PFR(is,os);
-            }
-            catch (Exception r){
-                break;
-            }
+
         }
     }
 
@@ -48,3 +50,4 @@ public class Main { public static void main(String[] args) throws IOException, I
     socket.close();
 
 }}
+///home/mark/IdeaProjects/sss

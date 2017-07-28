@@ -11,6 +11,7 @@ import java.util.Map;
 public class Dersiter {
     Map<String, Long> der = new HashMap<>();
     public boolean modificationDate(File file) throws IOException {
+        System.out.println(file.canRead()+"!"+file.getAbsolutePath()+"!"+file.isDirectory());
         Map<String, Long> der1 = new HashMap<>();
 
         File[] files= file.listFiles();

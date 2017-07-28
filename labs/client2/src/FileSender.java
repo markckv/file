@@ -11,6 +11,7 @@ public class FileSender {
             FIS.read(bytes);
             OS.write(bytes);
         }
-
+FIS.close();
     }
 }
+

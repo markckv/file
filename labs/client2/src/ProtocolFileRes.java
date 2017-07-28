@@ -4,13 +4,15 @@ import java.io.*;
  * Created by mark on 10.07.17.
  */
 public class ProtocolFileRes {
-    public File PFR(InputStream is, OutputStream OS) throws IOException {
+    public File PFR(InputStream is, OutputStream OS, File file) throws IOException {
         DataOutputStream DOS = new DataOutputStream(OS);
         DataInputStream DIS = new DataInputStream(is);
         if(DIS.readUTF().equals("directory")){
             String name = DIS.readUTF();
-            File file = new File(System.getProperty("user.dir")+"/"+name);
+
             file.mkdir();
+
+
             return(null);
         }else{
             long DM  = DIS.readLong();

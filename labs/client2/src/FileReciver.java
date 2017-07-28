@@ -14,5 +14,6 @@ File file = new File(name);
             FIS.write(bytes, 0, o);
 
         }
+        FIS.close();
         return (file);
 }}
